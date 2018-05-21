@@ -1,0 +1,4 @@
+Sitemap: http://www.vicsar.win/assets/xml/sitemap.xml
+
+User-Agent: *
+Disallow: /assets/images

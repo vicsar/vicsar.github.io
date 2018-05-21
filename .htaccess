@@ -1,0 +1,79 @@
+# Expires
+
+ExpiresActive On
+ExpiresDefault "access 1 month"
+ExpiresByType application/pdf "access 1 month"
+ExpiresByType application/x-shockwave-flash "access 1 month"
+ExpiresByType image/gif "access 1 year"
+ExpiresByType image/jpeg "access 1 year"
+ExpiresByType image/jpg "access 1 year"
+ExpiresByType image/png "access 1 year"
+ExpiresByType image/x-icon "access 1 year"
+ExpiresByType text/css "access 1 month"
+ExpiresByType text/html "access 1 month"
+ExpiresByType text/x-javascript "access 1 month"
+
+# END <<<<<<<<
+
+
+# Cache-Control Headers
+<filesMatch "\.(ico|jpe?g|png|gif|swf)$">
+Header set Cache-Control "public"
+</filesMatch>
+<filesMatch "\.(css)$">
+Header set Cache-Control "public"
+</filesMatch>
+<filesMatch "\.(js)$">
+Header set Cache-Control "private"
+</filesMatch>
+<filesMatch "\.(x?html?|php)$">
+Header set Cache-Control "private, must-revalidate"
+</filesMatch>
+
+# END <<<<<<<<
+
+
+# Turn ETags Off
+FileETag None
+# END <<<<<<<<
+
+
+# Prevent viewing of .htaccess file
+<Files .htaccess>
+Order Allow,Deny
+Deny from all
+</Files>
+# END <<<<<<<<
+
+
+# Preventing Directory Listing
+Options -Indexes
+# END <<<<<<<<
+
+
+# Error Documents
+ErrorDocument 403 https://www.vicsar.win/assets/htm/error-403-access-denied-forbidden.htm
+ErrorDocument 404 https://www.vicsar.win/assets/htm/error-404-page-not-found.htm
+ErrorDocument 500 https://www.vicsar.win/assets/htm/error-500-server-error.htm
+# END <<<<<<<<
+
+
+# Server Time settings
+php_value date.timezone America/Costa_Rica
+# END <<<<<<<<
+
+
+# Allow the same tcp connection for HTTP conversation instead of opening a new one with each new request
+Header set Connection keep-alive
+
+
+# Forces connections over HTTPS encryption
+Header add Strict-Transport-Security "max-age=300;includeSubDomains;preload"
+# END <<<<<<<<
+
+
+# Redirects http:// traffic to https://
+# Bravenet uses a reverse proxy, hence X-Forwarded-Proto
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301] 
+# END <<<<<<
